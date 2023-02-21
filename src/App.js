@@ -1,16 +1,18 @@
 import "./App.css";
-import Table from "./Components/Table";
+
 import CompanyDetails from "./Components/CompanyDetails";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Home from "./Components/Home";
 
 function App() {
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/CompanyDetails" element={<CompanyDetails />} />
-      </Routes>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/CompanyDetails/:cmpid" element={<CompanyDetails />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

@@ -1,40 +1,81 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import CompanyDetailsTable from "./CompanyDetailsTable";
-import PdfViewer from "./PdfViewer";
+import Viewer from "./Viewer";
+
+
 const CompanyDetails = () => {
   const [sections, setSections] = useState(null);
-  // const [activeSec, setActiveSec] = useState(1) ;
+  const { cmpid } = useParams();
   const [tableId, setTableId] = useState("1");
-  const payload = {
+  const [lineItems, setLineItems] = useState(null);
+  const [headers, setHeaders] = useState(null);
+  const [listOfDocuments, setListOfDocuments] = useState([]) ;
+  const tablePayload = {
     inputdata: {
-      companyId: "10241",
+      companyId: cmpid,
+      documentId: "0",
+      tableId: parseInt(tableId),
+      IsClient: false,
+      clientId: "0",
+      userId: "aneesh.n@almug.ai",
+    },
+    requestToken: 1676446484,
+  };
+  const sectionPayload = {
+    inputdata: {
+      companyId: cmpid,
       documentId: 0,
       sectionName: "TS",
       IsClient: false,
     },
     requestToken: 1676446484,
   };
-  const fetchData = () => {
+  const fetchSections = () => {
     fetch(`https://dal.alphastream.ai/api/v1.0/AlphaStream/Ui/GetSections`, {
       method: "POST",
-      body: JSON.stringify(payload),
+      body: JSON.stringify(sectionPayload),
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("sections",data.data.sections);
         setSections(data.data.sections);
       })
       .catch((error) => console.log(error));
   };
+  const fetchTimeSeriesData = () => {
+    fetch(
+      `https://dal.alphastream.ai/api/v1.0/AlphaStream/Ui/GetTimeSeriesData`,
+      {
+        method: "POST",
+        body: JSON.stringify(tablePayload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("Headers", data.data.periods);
+        setLineItems(data.data.lineItmes);
+        setHeaders(data.data.periods);
+        var docHash = {} ; 
+        data.data.listOfDocuments.map((doc)=>{
+          docHash[`${doc.documentId}`] = doc ;
+        })
+        setListOfDocuments(docHash) ;
+      })
+      .catch((error) => console.log(error));
+  };
   useEffect(() => {
-    fetchData();
-    // headers && console.log(headers) ;
+    fetchSections();
+    fetchTimeSeriesData();
   }, []);
+  useEffect(()=>{fetchTimeSeriesData();},[tableId])
   var activeClass =
-    "inline-block p-1 text-blue-600  text-lg bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500";
+    "inline-block p-1 text-blue-500  text-lg bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500";
   var inActiveClass =
     "inline-block p-1 rounded-t-lg text-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300";
   const [isActive, setIsActive] = useState(0);
@@ -71,11 +112,13 @@ const CompanyDetails = () => {
       </div>
       <div className="flex">
         <div className="overflow-x-scroll">
-        <CompanyDetailsTable reqTableId={tableId}></CompanyDetailsTable>
-
+          <CompanyDetailsTable
+          lineItems={lineItems}
+          headers={headers}
+          ></CompanyDetailsTable>
         </div>
         <div className="w-[50%]">
-          <PdfViewer docId={45240}></PdfViewer>
+          <Viewer listOfDocuments={listOfDocuments}></Viewer>
         </div>
       </div>
     </div>

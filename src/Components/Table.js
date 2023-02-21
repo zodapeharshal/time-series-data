@@ -6,16 +6,15 @@ const Table = () => {
   const [page, setPage] = useState(1);
   const [prevDisabled, setPrevDisabled] = useState(true);
   const [nextDisabled, setNextDisabled] = useState(false);
-  const [totalPages, setTotalPages] = useState(0) ;
+  const [totalPages, setTotalPages] = useState(0);
   useEffect(() => {
     page !== 1 ? setPrevDisabled(false) : setPrevDisabled(true);
     page === totalPages ? setNextDisabled(true) : setNextDisabled(false);
   }, [page]);
-  console.log(Headers);
   // useEffect(()=>{console.log("rendered 1 time")},[])
-  const handleTotalPages = (totPages) =>{
-    setTotalPages(totPages) ;
-  }
+  const handleTotalPages = (totPages) => {
+    setTotalPages(totPages);
+  };
   return (
     <div className="relative overflow-auto m-5 sm:rounded-lg ">
       <table className="w-full text-2xl text-left text-gray-500 dark:text-gray-400">
@@ -28,7 +27,10 @@ const Table = () => {
           </tr>
         </thead>
         <div className="m-2"></div>
-        <CompanyList pageNum={page} setTotalPagesCallback={handleTotalPages}></CompanyList>
+        <CompanyList
+          pageNum={page}
+          setTotalPagesCallback={handleTotalPages}
+        ></CompanyList>
       </table>
 
       <div className="flex m-4 justify-center">
@@ -52,9 +54,7 @@ const Table = () => {
           </svg>
           Previous
         </button>
-        <div className="m-2">
-            {page}
-        </div>
+        <div className="m-2">{page}</div>
         <button
           onClick={() => setPage((page) => page + 1)}
           disabled={nextDisabled}
@@ -80,4 +80,3 @@ const Table = () => {
   );
 };
 export default Table;
-

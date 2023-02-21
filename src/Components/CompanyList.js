@@ -2,7 +2,7 @@ import { Headers } from "../Constants/Headers";
 import React, { useState, useffect, useEffect } from "react";
 import { HeaderKeys } from "../Constants/HeaderKeys";
 import CompanyDetails from "./CompanyDetails";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Route, Routes, Link } from "react-router-dom";
 import Table from "./Table";
 
@@ -32,10 +32,10 @@ const CompanyList = ({ pageNum, setTotalPagesCallback }) => {
     fetchData();
   }, [pageNum]);
 
-
   return (
     <>
-      <tbody>
+   
+      <tbody >
         {data &&
           data.map((cmpdetail, idx) => {
             //   console.log(cmpdetail);
@@ -47,9 +47,12 @@ const CompanyList = ({ pageNum, setTotalPagesCallback }) => {
                 {data &&
                   HeaderKeys.map((hkey) => {
                     return hkey === "companyname" ? (
-                      <td className="text-base" key={cmpdetail.companyid + hkey}>
+                      <td
+                        className="text-base"
+                        key={cmpdetail.companyid + hkey}
+                      >
                         <Link
-                          to={{ pathname: "/CompanyDetails" }}
+                          to={`/CompanyDetails/${cmpdetail.companyid}`}
                           target="_blank"
                         >
                           {cmpdetail[hkey]}
@@ -64,7 +67,9 @@ const CompanyList = ({ pageNum, setTotalPagesCallback }) => {
                       </td>
                     );
                   })}
-                  <td className="flex justify-center"><MoreVertIcon/></td>
+                <td className="flex justify-center">
+                  <MoreVertIcon />
+                </td>
               </tr>
             );
           })}
