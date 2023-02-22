@@ -42,14 +42,6 @@ const CompanyDetailsTable = ({ lineItems, headers }) => {
 
   return (
     <div>
-      <button
-        onClick={() => {
-          dispatch(showDetails());
-        }}
-      >
-        {" "}
-        show Details{" "}
-      </button>
       <table className="w-full text-2xl text-left text-gray-500 dark:text-gray-400">
         <thead className="text-base shadow-md  text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
           <tr>

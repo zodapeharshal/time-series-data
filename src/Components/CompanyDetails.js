@@ -13,7 +13,8 @@ const CompanyDetails = () => {
   const [listOfDocuments, setListOfDocuments] = useState([]) ;
   const tablePayload = {
     inputdata: {
-      companyId: cmpid,
+      // companyId: cmpid,
+      companyId: 12334,
       documentId: "0",
       tableId: parseInt(tableId),
       IsClient: false,
@@ -63,7 +64,7 @@ const CompanyDetails = () => {
         setHeaders(data.data.periods);
         var docHash = {} ; 
         data.data.listOfDocuments.map((doc)=>{
-          docHash[`${doc.documentId}`] = doc ;
+          docHash[parseInt(doc.documentId)] = doc ;
         })
         setListOfDocuments(docHash) ;
       })
@@ -117,7 +118,7 @@ const CompanyDetails = () => {
           headers={headers}
           ></CompanyDetailsTable>
         </div>
-        <div className="w-[50%]">
+        <div className="w-[35%]">
           <Viewer listOfDocuments={listOfDocuments}></Viewer>
         </div>
       </div>

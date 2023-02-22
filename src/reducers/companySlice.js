@@ -4,7 +4,7 @@ export const companySlice = createSlice({
   initialState: {
     value: {  
       "docId": 12335,
-      "a": "" 
+      "link": {}
     },
   },
   reducers: {
