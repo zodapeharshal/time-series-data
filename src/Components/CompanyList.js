@@ -1,4 +1,4 @@
-import { Headers } from "../Constants/Headers";
+import { Headers, columnDefs } from "../Constants/Headers";
 import React, { useState, useffect, useEffect } from "react";
 import { HeaderKeys } from "../Constants/HeaderKeys";
 import CompanyDetails from "./CompanyDetails";
@@ -16,7 +16,7 @@ const CompanyList = ({ pageNum, setTotalPagesCallback }) => {
       `https://dal.alphastream.ai/api/v1.0/AlphaStream/Ui/FindCompany?page=${pageNum}&companyName=&SortByCol=&SortDir=&product=Fundamentals`
     )
       .then((response) => response.json())
-      .then((data) => setData(data.data))
+      .then((data) => {setData(data.data); console.log(data.data);})
       .catch((error) => console.log(error));
   };
   useEffect(() => {
@@ -26,6 +26,7 @@ const CompanyList = ({ pageNum, setTotalPagesCallback }) => {
       .then((response) => response.json())
       .then((data) => setTotalPagesCallback(data.totalpages))
       .catch((error) => console.log(error));
+      console.log("columndefs", columnDefs);
   }, []);
 
   useEffect(() => {
@@ -34,7 +35,6 @@ const CompanyList = ({ pageNum, setTotalPagesCallback }) => {
 
   return (
     <>
-   
       <tbody >
         {data &&
           data.map((cmpdetail, idx) => {
@@ -63,7 +63,7 @@ const CompanyList = ({ pageNum, setTotalPagesCallback }) => {
                         key={cmpdetail.companyid + hkey}
                         className="text-base "
                       >
-                        {cmpdetail[hkey]}
+                        <span className="ml-4">{cmpdetail[hkey]}</span>
                       </td>
                     );
                   })}

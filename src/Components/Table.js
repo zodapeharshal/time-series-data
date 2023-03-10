@@ -18,11 +18,11 @@ const Table = () => {
   return (
     <div className="relative overflow-auto m-5 sm:rounded-lg ">
       <table className="w-full text-2xl text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xl shadow-md  text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-base shadow-md text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             {/* {console.log(Headers.value)} */}
             {Headers.map((head, idx) => {
-              return <th key={`th-${idx}`}>{head}</th>;
+              return <th className= "border border-black text-base pl-2" key={`th-${idx}`}>{head}</th>;
             })}
           </tr>
         </thead>

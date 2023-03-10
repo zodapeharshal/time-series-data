@@ -6,6 +6,8 @@ export const companySlice = createSlice({
       "docId": 12335,
       "link": {}
     },
+    isLoading : false,
+    cdnPath: "" 
   },
   reducers: {
     updateCmpDetails : (state, action)=>  {
@@ -14,8 +16,14 @@ export const companySlice = createSlice({
     showDetails : (state ) => {
         console.log("from company slice", current(state)) ;
     },
+    showLoading : (state, action) => {
+      state.isLoading = action.payload ;
+    },
+    updateCdnPath: (state, action) => {
+      state.cdnPath = action.payload
+    },
   },
 })
 const { actions , reducer } =companySlice ;
-export const { updateCmpDetails, showDetails} = actions ;
+export const { updateCmpDetails, showDetails, showLoading, updateCdnPath} = actions ;
 export default reducer ;

@@ -1,3 +1,4 @@
+
 export const Headers = [
   "Company Name",
   "Country",
@@ -11,3 +12,19 @@ export const Headers = [
   "AR/QR Date",
   "Action",
 ];
+
+
+export const columnDefs =  [
+  { field: "Company Name" },
+  { field: "Country" },
+  { field:  "Industry" },
+  { field:  "ISIN" },
+  { field:  "Ticker" },
+  { field:  "Filings" },
+  { field:  "Fiscal Year"},
+  { field: "ER Date"},
+  { field: "Last ER Date" },
+  { field:  "AR/QR Date"},
+  { field:  "Action" }
+
+] ;

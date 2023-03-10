@@ -1,8 +1,8 @@
+import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CompanyDetailsTable from "./CompanyDetailsTable";
 import Viewer from "./Viewer";
-
 
 const CompanyDetails = () => {
   const [sections, setSections] = useState(null);
@@ -10,18 +10,20 @@ const CompanyDetails = () => {
   const [tableId, setTableId] = useState("1");
   const [lineItems, setLineItems] = useState(null);
   const [headers, setHeaders] = useState(null);
-  const [listOfDocuments, setListOfDocuments] = useState([]) ;
+  const [listOfDocuments, setListOfDocuments] = useState([]);
+  const toShow = useSelector((state) => state.showViewer);
+
   const tablePayload = {
     inputdata: {
-      // companyId: cmpid,
-      companyId: 12334,
+      companyId: cmpid,
       documentId: "0",
       tableId: parseInt(tableId),
       IsClient: false,
       clientId: "0",
       userId: "aneesh.n@almug.ai",
     },
-    requestToken: 1676446484,
+    // request token =  unix time stamp
+    requestToken: Date().valueOf(),
   };
   const sectionPayload = {
     inputdata: {
@@ -30,7 +32,7 @@ const CompanyDetails = () => {
       sectionName: "TS",
       IsClient: false,
     },
-    requestToken: 1676446484,
+    requestToken: Date().valueOf() ,
   };
   const fetchSections = () => {
     fetch(`https://dal.alphastream.ai/api/v1.0/AlphaStream/Ui/GetSections`, {
@@ -62,11 +64,11 @@ const CompanyDetails = () => {
         // console.log("Headers", data.data.periods);
         setLineItems(data.data.lineItmes);
         setHeaders(data.data.periods);
-        var docHash = {} ; 
-        data.data.listOfDocuments.map((doc)=>{
-          docHash[parseInt(doc.documentId)] = doc ;
-        })
-        setListOfDocuments(docHash) ;
+        var docHash = {};
+        data.data.listOfDocuments.map((doc) => {
+          docHash[parseInt(doc.documentId)] = doc;
+        });
+        setListOfDocuments(docHash);
       })
       .catch((error) => console.log(error));
   };
@@ -74,7 +76,9 @@ const CompanyDetails = () => {
     fetchSections();
     fetchTimeSeriesData();
   }, []);
-  useEffect(()=>{fetchTimeSeriesData();},[tableId])
+  useEffect(() => {
+    fetchTimeSeriesData();
+  }, [tableId]);
   var activeClass =
     "inline-block p-1 text-blue-500  text-lg bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500";
   var inActiveClass =
@@ -85,8 +89,8 @@ const CompanyDetails = () => {
       <div className="font-medium leading-tight text-4xl mt-0 mb-2 text-cyan-600 underline">
         Time-Series-Data
       </div>
-      <div className="m-2">
-        <ul className="flex   text-xs font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
+      <div className="">
+        <ul className="flex  text-xs font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
           {/* {headers &&  Object.entries(headers).map(([key, value]) => {console.log(`${key}: ${value}`); })}  */}
           {sections &&
             sections.map((sec, idx) => {
@@ -112,14 +116,14 @@ const CompanyDetails = () => {
         </ul>
       </div>
       <div className="flex">
-        <div className="overflow-x-scroll">
+        <div className=" max-h-[85vh] w-[65%] overflow-x-scroll">
           <CompanyDetailsTable
-          lineItems={lineItems}
-          headers={headers}
+            lineItems={lineItems}
+            headers={headers}
           ></CompanyDetailsTable>
         </div>
-        <div className="w-[35%]">
-          <Viewer listOfDocuments={listOfDocuments}></Viewer>
+        <div className="max-h-[85vh] w-[35%]">
+          <Viewer listOfDocuments={listOfDocuments}  ></Viewer>
         </div>
       </div>
     </div>
